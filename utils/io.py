@@ -163,7 +163,10 @@ def readImage(name):
     if name.endswith('.pfm') or name.endswith('.PFM'):
         return readPFM(name)[0][:,:,0:3]
 
-    return misc.imread(name)
+    im = misc.imread(name)
+    if im.ndim == 2:
+        im = np.stack((im,) * 3, axis=-1)
+    return im
 
 def writeImage(name, data):
     if name.endswith('.pfm') or name.endswith('.PFM'):
